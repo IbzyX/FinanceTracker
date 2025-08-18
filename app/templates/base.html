@@ -15,12 +15,16 @@
             <div class="navbar-left">
                 <h1 class="logo">Finance Tracker</h1>
             </div>
+
+            
             <div class="navbar-right">
-
-
-                <div class="dropdown">
-                    <div class="nav-icon">
-                        <button id="menu-toggle" class="settings"><i class="fa fa-gear"></i></button>
+                <div class="dropdown" id="settingsDropdown">
+                    <button class="dropdown-btn" onclick="toggleDropdown()">
+                        <i class="fa fa-gear"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <button id="themeSwitch" onclick="toggleTheme()">Switch to Light Mode</button>
+                        <button>Settings</button>
                     </div>
                 </div>
             </div>
@@ -30,7 +34,7 @@
         </main>
         
         
-        
-        
+        <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+        {% block scripts %} {% endblock %}   
     </body>
 </html>
