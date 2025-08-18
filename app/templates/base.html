@@ -5,8 +5,32 @@
         <meta name="viewport" content="width=device-width", inital-scale="1.0">
 
         <title>{% block title %} Finance Tracker {% endblock %}</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+        {% block css %}{% endblock %}
     </head>
     <body>
-        {% block content %} {% endblock %}
+        
+        <nav class="navbar">
+            <div class="navbar-left">
+                <h1 class="logo">Finance Tracker</h1>
+            </div>
+            <div class="navbar-right">
+
+
+                <div class="dropdown">
+                    <div class="nav-icon">
+                        <button id="menu-toggle" class="settings"><i class="fa fa-gear"></i></button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <main>
+            {% block content %} {% endblock %}
+        </main>
+        
+        
+        
+        
     </body>
 </html>
