@@ -1,3 +1,4 @@
+/* === THEME CONTROL === */
 :root {
     --background-color: #000232;
     --text-color: #f1f1f1;
@@ -25,7 +26,7 @@ body {
 
 
 
-
+/* === NAVBAR === */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -49,6 +50,9 @@ body {
     cursor: pointer;
 }
 
+
+
+/* === SETTINGS DROPDOWN === */
 .dropdown {
   position: relative;
   display: inline-block;
@@ -68,29 +72,77 @@ body {
   position: absolute;
   right: 0;
   background-color: var(--widget-color);
-  min-width: 160px;
+  width: 250px;
+  max-height: 400px;
+  overflow-y: auto;
   border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 8px var(--text-color); /*change to remove glow effect*/
   z-index: 100;
 }
 
-.dropdown-content button {
-  background: none;
-  border: none;
+.dropdown-content .dropdown-item {
+  display: block;              
   width: 100%;
   padding: 12px;
   text-align: left;
   color: var(--text-color);
   cursor: pointer;
   font-size: 0.95rem;
+  text-decoration: none;
+  background: none;
+  border: none;
+  box-sizing: border-box;
 }
 
-.dropdown-content button:hover {
+/* Optional: divider between items */
+.dropdown-item.divider-top {
+  border-top: 0.5px solid var(--text-color);
+}
+
+.dropdown-content .dropdown-item:hover {
   background-color: var(--accent-color);
-  color: var(--bg-color);
+  color: var(--background-color);
 }
 
 .dropdown.show .dropdown-content {
   display: block;
+}
+
+
+
+
+
+
+
+
+/* === AUTHENTICATION ALERT === */
+.alert {
+    padding: 12px 16px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.alert.error {
+
+    background-color: #f8d7da;  
+    color: #721c24;             
+    border: 1px solid #f5c6cb;
+}
+.alert.success {
+    background-color: #d7f8df;  
+    color: #1c7239;             
+    border: 1px solid #caf5c6;
+}
+.alert.logout {
+    background-color: #e6e6e6;  
+    color: #636363;             
+    border: 1px solid #e6e6e6;
+}
+@keyframes fadeOut {
+  from {opacity: 1;}
+  to {opacity: 0;}
+}
+
+.alert.fade-out {
+  animation: fadeOut 1s forwards;
 }
