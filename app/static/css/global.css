@@ -77,8 +77,8 @@ body {
   position: absolute;
   right: 0;
   background-color: var(--widget-color);
-  width: 250px;
-  max-height: 400px;
+  width: 300px;
+  max-height: 500px;
   overflow-y: auto;
   border-radius: 8px;
   box-shadow: 0 4px 8px var(--text-color); /*change to remove glow effect*/
@@ -88,11 +88,11 @@ body {
 .dropdown-content .dropdown-item {
   display: block;              
   width: 100%;
-  padding: 12px;
+  padding: 15px;
   text-align: left;
   color: var(--text-color);
   cursor: pointer;
-  font-size: 0.95rem;
+  font-size: 1rem;
   text-decoration: none;
   background: none;
   border: none;

@@ -24,10 +24,20 @@
                     </button>
 
                     <div class="dropdown-content">
-                        <a href="{{ url_for('main.authen_page') }}" class="dropdown-item">Profile</a>
+                        {% if current_user.is_authenticated %}
+                            <span class="dropdown-item">{{ current_user.email }}</span>
+                        {% else %}
+                            <a href="{{ url_for('main.authen_page') }}" class="dropdown-item">Profile</a>
+                        {% endif %}
 
                         <a href="#" class="dropdown-item divider-top">Settings</a>
                         <a href="#" class="dropdown-item" onclick="toggleTheme()" id="themeSwitch">Switch to Light Mode</a>
+
+                        {% if current_user.is_authenticated %}
+                            <form action="{{ url_for('main.logout') }}" method="GET">
+                                <button type="submit" class="dropdown-item divider-top">Logout</button>
+                            </form>
+                        {% endif %}
                     
                     </div>
                 </div>
