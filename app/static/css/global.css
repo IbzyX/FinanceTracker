@@ -37,7 +37,12 @@ body {
 }
 .logo {
     margin: 10px;
+    padding: 10px;
     font-size: 2rem;
+    font-weight: bold;
+    color: var(--text-color);
+    text-decoration: none;
+
 }
 .navbar-right {
     display: flex;
