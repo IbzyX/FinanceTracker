@@ -1,4 +1,33 @@
-{% extends "base.html"}
+{% extends "base.html" %}
 {% block title %} Settings Page {% endblock %}
 
-{% block content %} {% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="column left-column">
+        <div class="widget large">Pie Chart</div>
+        <div class="widget large">Cashflow - line chart</div>
+    </div>
+
+    <div class="column center-column">
+        <div class="widget medium">Upcoming Bills - grid</div>
+        <div class="widget small">Savings</div>
+        <div class="widget large">Investments - line chart</div>
+    </div>
+
+    <div class="column right-column">
+        <div class="widget medium">Habits - radar chart</div>
+        <div class="widget small">Income</div>
+        <div class="widget small">Expenses</div>
+        <div class="widget medium">Debt - grid</div>
+    </div>
+</div>
+
+
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

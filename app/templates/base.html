@@ -31,6 +31,8 @@
                         {% endif %}
 
                         <a href="#" class="dropdown-item divider-top">Settings</a>
+                        <a href="{{ url_for('main.dashboard_page') }}" class="dropdown-item">dashboard</a>
+
                         <a href="#" class="dropdown-item" onclick="toggleTheme()" id="themeSwitch">Switch to Light Mode</a>
 
                         {% if current_user.is_authenticated %}
