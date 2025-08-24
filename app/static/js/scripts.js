@@ -7,15 +7,27 @@ function toggleTheme() {
     const themeSwitchBtn = document.getElementById("themeSwitch");
 
     if (body.classList.contains("light")) {
-    // Currently light → switch to dark
-    body.classList.remove("light");
-    themeSwitchBtn.textContent = "Switch to Light Mode";
+        // Switch to dark
+        body.classList.remove("light");
+        themeSwitchBtn.textContent = "Switch to Light Mode";
+        localStorage.setItem("theme", "dark");
     } else {
-    // Currently dark → switch to light
-    body.classList.add("light");
-    themeSwitchBtn.textContent = "Switch to Dark Mode";
+        // Switch to light
+        body.classList.add("light");
+        themeSwitchBtn.textContent = "Switch to Dark Mode";
+        localStorage.setItem("theme", "light");
     }
 }
+document.addEventListener("DOMContentLoaded", () => {
+    const savedTheme = localStorage.getItem("theme") || "dark";
+
+    if (savedTheme === "light") {
+        document.body.classList.add("light");
+        const btn = document.getElementById("themeSwitch");
+        if (btn) btn.textContent = "Switch to Dark Mode";
+    }
+});
+
 
 // Close dropdown if clicking outside
 window.onclick = function(event) {

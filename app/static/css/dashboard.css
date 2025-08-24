@@ -7,7 +7,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--widget-gap);
-    height: calc(90vh - 80px);
+    height: calc(90vh - 100px);
     margin: 0 auto;
 }
 .column {
@@ -31,8 +31,13 @@
     height: calc((100% / 12) *2 - var(--widget-gap));
 }
 .widget.medium {
-    height: calc((100% / 12) *4 - var(--widget-gap));
+    height: calc((100% / 12) * 4 - var(--widget-gap));
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    overflow: hidden; /* prevents outer scroll */
 }
+
 .widget.large {
     height: calc((100% / 12) *6 - var(--widget-gap));
 }

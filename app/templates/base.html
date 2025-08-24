@@ -12,37 +12,47 @@
     <body>
         
         <nav class="navbar">
-            <div class="navbar-left">
-                <h1><a href="{{ url_for('main.home_page') }}" class="logo">Finance Tracker</a></h1>
-            </div>
+            <div class="navbar-row navbar-top">
+                <div class="navbar-section navbar-left">
+                    <h1><a href="{{ url_for('main.home_page') }}" class="logo">Finance Tracker</a></h1>
+                </div>
+                
 
-            
-            <div class="navbar-right">
-                <div class="dropdown" id="settingsDropdown">
-                    <button class="dropdown-btn" onclick="toggleDropdown()">
-                    <i class="fa fa-gear"></i>
-                    </button>
+                <div class="navbar-section navbar-right">
+                    <div class="dropdown" id="settingsDropdown">
+                        <button class="dropdown-btn" onclick="toggleDropdown()">
+                        <i class="fa fa-gear"></i>
+                        </button>
 
-                    <div class="dropdown-content">
-                        {% if current_user.is_authenticated %}
-                            <span class="dropdown-item">{{ current_user.email }}</span>
-                        {% else %}
-                            <a href="{{ url_for('main.authen_page') }}" class="dropdown-item">Profile</a>
-                        {% endif %}
+                        <div class="dropdown-content">
+                            {% if current_user.is_authenticated %}
+                                <span class="dropdown-item">{{ current_user.email }}</span>
+                            {% else %}
+                                <a href="{{ url_for('main.authen_page') }}" class="dropdown-item">Profile</a>
+                            {% endif %}
 
-                        <a href="#" class="dropdown-item divider-top">Settings</a>
-                        <a href="{{ url_for('main.dashboard_page') }}" class="dropdown-item">dashboard</a>
 
-                        <a href="#" class="dropdown-item" onclick="toggleTheme()" id="themeSwitch">Switch to Light Mode</a>
+                            <a href="#" class="dropdown-item divider-top">Settings</a>
+                            <a href="{{ url_for('main.dashboard_page') }}" class="dropdown-item">dashboard</a>
 
-                        {% if current_user.is_authenticated %}
-                            <form action="{{ url_for('main.logout') }}" method="GET">
-                                <button type="submit" class="dropdown-item divider-top">Logout</button>
-                            </form>
-                        {% endif %}
-                    
+                            <a href="#" class="dropdown-item" onclick="toggleTheme()" id="themeSwitch">Switch to Light Mode</a>
+
+
+                            {% if current_user.is_authenticated %}
+                                <form action="{{ url_for('main.logout') }}" method="GET">
+                                    <button type="submit" class="dropdown-item divider-top">Logout</button>
+                                </form>
+                            {% endif %}
+                        
+                        </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="navbar-row navbar-bottom">
+
+                {% block extra_nav %} {% endblock %}
+
             </div>
 
         </nav>

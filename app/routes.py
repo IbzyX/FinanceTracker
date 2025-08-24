@@ -11,9 +11,18 @@ def home_page():
 
 @main.route('/dashboard')
 def dashboard_page():
-    return render_template('dashboard.html')
+    return render_template('dashboard.html', active_page='dashboard')
+
+@main.route('/entry')
+def entry_page():
+    return render_template('entry.html', active_page='entry')
 
 
+
+# --- Widgets --- 
+@main.route('/widget/<name>')
+def widget_loader(name):
+    return render_template(f"widgets/_{name}.html")
 
 
 @main.route('/authen')
@@ -51,7 +60,7 @@ def login():
     if user and user.check_password(password):
         login_user(user)
         flash("Logged in successfully.", "success")
-        return redirect(url_for('main.home_page'))
+        return redirect(url_for('main.dashboard_page'))
 
     flash("Invalid email or password.", "error")
     return redirect(url_for('main.authen_page') + '#login')
