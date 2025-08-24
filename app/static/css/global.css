@@ -5,15 +5,20 @@
     --widget-color: #404076;
     --accent-color: #6ce5e8;
     --widget-gap:15px;
+    --chart-color-1: #6ce5e8;
+    --chart-color-2: #41b8d5;
+    --chart-color-3: #2d8bba;
 
 }
 body.light {
     --background-color: #f5f7ff;
     --text-color: #000232;
     --widget-color: #cbcbcb;
-    --accent-color: #ff66c4;
+    --accent-color: #ff3bb4;
     --widget-gap:15px;
-
+    --chart-color-1: #ff3bb4;
+    --chart-color-2: #ff65c4;
+    --chart-color-3: #d10ba6;
 }
 body {
     margin: 0;
