@@ -25,6 +25,8 @@ def widget_loader(name):
     return render_template(f"widgets/_{name}.html")
 
 
+
+
 @main.route('/authen')
 def authen_page():
     return render_template('authen.html')

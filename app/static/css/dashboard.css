@@ -6,6 +6,7 @@
 .dashboard {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(12, 1fr);
     gap: var(--widget-gap);
     height: calc(90vh - 100px);
     margin: 0 auto;
@@ -20,27 +21,29 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     font-weight: bold;
     font-size: 1rem;
     text-align: center;
     width: 100%;
-}
-.widget.small {
-    height: calc((100% / 12) *2 - var(--widget-gap));
-}
-.widget.medium {
-    height: calc((100% / 12) * 4 - var(--widget-gap));
-    display: flex;
-    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
     padding: 1rem;
-    overflow: hidden; /* prevents outer scroll */
+    box-sizing: border-box;
+}
+.widget-slot {
+    width: 100%;
+    box-sizing: border-box;
+}
+.widget-slot.small {
+    grid-row: span 2;
+}
+.widget-slot.medium {
+    grid-row: span 4;
+}
+.widget-slot.large {
+    grid-row: span 6;
 }
 
-.widget.large {
-    height: calc((100% / 12) *6 - var(--widget-gap));
-}
 .widget-header {
     padding: 5px;
 }

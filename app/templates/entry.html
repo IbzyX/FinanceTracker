@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block title %} Entry page {% endblock %}
 
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/entry.css') }}">
+{% endblock %}
 
 {% block extra_nav %}
 <div class="navbar-section navbar-left">
@@ -10,20 +13,15 @@
     </div>
 </div>
 <div class="navbar-section navbar-right">
-    <a href="{{ url_for('main.dashboard_page') }}"
-        class="{% if active_page == 'dashboard' %}active{% endif %}">
-        Overview
-    </a>
-
-    <a href="{{ url_for('main.entry_page') }}"
-        class="{% if active_page == 'entry' %}active{% endif %}">
-        Entry
-    </a>
+    <a href="{{ url_for('main.dashboard_page') }}" class="{% if active_page == 'dashboard' %}active{% endif %}">Overview</a>
+    <a href="{{ url_for('main.entry_page') }}" class="{% if active_page == 'entry' %}active{% endif %}">Entry</a>
 </div>
 
 {% endblock %}
 
 
 {% block content %}
-<h2>entry</h2>
+<div class="entry-wrapper">
+    <h2>entry</h2>
+</div>
 {% endblock %}

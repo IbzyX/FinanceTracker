@@ -19,7 +19,7 @@ function initUpcomingBills() {
         const billDate = new Date(bill.date);
         if (billDate >= today && billDate <= thirtyDaysFromNow) {
             const row = document.createElement("tr");
-            row.innerHTML = `<td>${bill.name}</td><td>${bill.date}</td><td>$${bill.amount.toFixed(2)}</td>`;
+            row.innerHTML = `<td>${bill.name}</td><td>${bill.date}</td><td>£${bill.amount.toFixed(2)}</td>`;
             tbody.appendChild(row);
             total += bill.amount;
         }

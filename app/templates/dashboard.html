@@ -3,7 +3,13 @@
 
 {% block css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+
 <link rel="stylesheet" href="{{ url_for('static', filename='css/widgets/upcoming.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/widgets/total.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/widgets/habits.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/widgets/cashflowGraph.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/widgets/savingss.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/widgets/cashflowChart.css') }}">
 {% endblock %}
 
 
@@ -15,23 +21,23 @@
     </div>
 </div>
 <div class="navbar-section navbar-right">
-    <a href="{{ url_for('main.dashboard_page') }}"
-        class="{% if active_page == 'dashboard' %}active{% endif %}">
-        Overview
-    </a>
-
-    <a href="{{ url_for('main.entry_page') }}"
-        class="{% if active_page == 'entry' %}active{% endif %}">
-        Entry
-    </a>
+    <a href="{{ url_for('main.dashboard_page') }}" class="{% if active_page == 'dashboard' %}active{% endif %}">Overview</a>
+    <a href="{{ url_for('main.entry_page') }}" class="{% if active_page == 'entry' %}active{% endif %}">Entry</a>
 </div>
 
 {% endblock %}
 
 {% block content %}
 <div class="dashboard">
-    <div class="widget-slot" data-widget="upcoming_bills"></div>
-
+    <div class="widget-slot large" data-widget="total_pie"></div>
+    <div class="widget-slot medium" data-widget="upcoming_bills"></div>
+    <div class="widget-slot medium" data-widget="habits"></div>
+    <div class="widget-slot small" data-widget="savings"></div>
+    <div class="widget-slot medium" data-widget="cashflow_chart"></div>
+    <div class="widget-slot large" data-widget="cashflow_graph"></div>
+    <div class="widget-slot large" data-widget="Investments"></div>
+    <div class="widget-slot medium" data-widget="debt"></div>
+    
 
 </div>
 
