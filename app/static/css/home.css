@@ -1,0 +1,7 @@
+.home-wrapper {
+    display: flex;
+    background-color: var(--widget-color);
+    border-radius: 0 0 30px 30px;
+    min-height: calc(90vh - 100px);
+    padding: 0 20px 0 20px;
+}
