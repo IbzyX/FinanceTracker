@@ -25,23 +25,65 @@
     <div class="income">
         <h3>Income</h3>
     </div>
+
     <div class="savings">
         <h3>Savings</h3>
     </div>
+
     <div class="goals">
         <h3>Goals</h3>
     </div>
+
     <div class="investments">
         <h3>Investments</h3>
     </div>
+
     <div class="expense">
         <h3>Expense</h3>
     </div>
+
     <div class="bills">
-        <h3>Bills</h3>
+        <div class="bills-entry">
+            <h3 class="center-title">Bills</h3>
+
+            <form id="bill-form" class="bill-form-grid">
+                <input type="text" name="name" placeholder="input Name" required />
+
+                <div class="input-row">
+                    <input type="number" step="0.01" name="amount" placeholder="input amount" required />
+                    <input type="date" name="date" required />
+                </div>
+
+                <div class="button-row">
+                        <button type="submit" class="add-bill-btn">+</button>
+                    </div>
+            </form>
+
+            <div class="table-container">
+                <table class="bill-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="all-bills-table-body">
+                        <!-- JS injects rows here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
+
     <div class="debt">
         <h3>Debt</h3>
     </div>
+
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/entry.js') }}"></script>
 {% endblock %}

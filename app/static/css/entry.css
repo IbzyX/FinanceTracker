@@ -1,3 +1,4 @@
+/* === ENTRY WIDGETS ==== */
 .entry {
   display: grid;
   grid-template-columns: repeat(4, 1fr); 
@@ -11,37 +12,30 @@
   grid-column: 1 / 3; /* spans first 2 columns */
   grid-row: 1 / 2;    /* first row */
 }
-
 .expense {
   grid-column: 3 / 4; /* third column */
   grid-row: 1 / 3;    /* spans 2 rows */
 }
-
 .bills {
   grid-column: 4 / 5; /* fourth column */
   grid-row: 1 / 3;    /* spans 2 rows */
 }
-
 .savings {
   grid-column: 1 / 2; /* first column */
   grid-row: 2 / 3;    /* second row */
 }
-
 .goals {
   grid-column: 2 / 3; /* second column */
   grid-row: 2 / 3;    /* second row */
 }
-
 .investments {
   grid-column: 1 / 3; /* first two columns */
   grid-row: 3 / 4;    /* third row */
 }
-
 .debt {
   grid-column: 3 / 5; /* third and fourth columns */
   grid-row: 3 / 4;    /* third row */
 }
-
 
 .entry > div {
   background-color: var(--widget-color);
@@ -53,3 +47,115 @@
   align-items: center;
   justify-content: center;
 }
+
+
+
+
+
+
+
+
+/* ==== BILLS WIDGET ==== */
+.bills-entry {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border-radius: 10px;
+  color: white;
+  font-family: sans-serif;
+  height: 100%; /* Optional if needed */
+  width: 100%;
+}
+
+.center-title {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.input-row {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.input-row input {
+  flex: 1;
+}
+
+.button-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+
+}
+
+
+.bill-form-grid {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr) auto;
+  gap: var(--widget-gap, 0.5rem);
+}
+
+.bill-form-grid input,
+.add-bill-btn {
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: none;
+  font-size: 1rem;
+}
+
+.add-bill-btn {
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  width: 2.5rem;
+  height: 2.5rem;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.table-container {
+  max-height: 200px;
+  overflow-y: auto;
+  color: var(--text-color);
+}
+
+/* Hide scroll bar while keeping scrollable */
+.table-container::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+.table-container {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE 10+ */
+}
+.table-container::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+.bill-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.bill-table th,
+.bill-table td {
+  padding: 0.5rem;
+  text-align: center;
+  border-bottom: 1px solid var(--accent-color);
+}
+
+.remove-btn {
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  line-height: 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

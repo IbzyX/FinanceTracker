@@ -12,6 +12,7 @@
 
 #upcoming-bills-widget p {
     margin: 0 0 0.5rem 0; /* Tighten spacing under paragraph */
+    color: var(--accent-color);
     font-weight: bold;
     text-align: center;
 }

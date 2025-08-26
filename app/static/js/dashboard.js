@@ -24,23 +24,26 @@ function loadWidget(widgetName, container) {
 
 function loadWidgetScript(widgetName) {
     const scriptId = `widget-script-${widgetName}`;
-    if (document.getElementById(scriptId)) return; // prevent duplicate loads
+    if (document.getElementById(scriptId)) return;
 
     return new Promise((resolve, reject) => {
         const script = document.createElement("script");
         script.src = `/static/js/widgets/${widgetName}.js`;
         script.id = scriptId;
+
         script.onload = () => {
-            // Call the widget init function after script loads
-            const initFunctionName = `init${widgetName.charAt(0).toUpperCase() + widgetName.slice(1)}`;
+            // Capitalize only the first letter and keep rest as-is
+            const initFunctionName = `init${widgetName.charAt(0).toUpperCase()}${widgetName.slice(1)}`;
             if (typeof window[initFunctionName] === "function") {
+                console.log(`✅ Running ${initFunctionName}`);
                 window[initFunctionName]();
             } else {
-                console.warn(`Init function ${initFunctionName} not found for widget ${widgetName}`);
+                console.warn(`❌ Init function ${initFunctionName} not found for widget ${widgetName}`);
             }
             resolve();
         };
-        script.onerror = () => reject(new Error(`Failed to load script for widget ${widgetName}`));
+
+        script.onerror = () => reject(new Error(`❌ Failed to load script for widget ${widgetName}`));
         document.body.appendChild(script);
     });
 }

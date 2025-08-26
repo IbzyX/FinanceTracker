@@ -1,33 +1,38 @@
-function initUpcomingBills() {
-    const bills = [
-        { name: "Insurance", date: "2025-09-04", amount: 104 },
-        { name: "Amazon", date: "2025-09-05", amount: 4.49 },
-        { name: "Youtube", date: "2025-08-26", amount: 7.99 },
-        { name: "Netflix", date: "2025-09-18", amount: 12.99 }
-    ];
+function initUpcoming_bills() {
+    console.log("initUpcoming_bills called ✅");
+
+    const bills = JSON.parse(localStorage.getItem("bills")) || [];
 
     const tbody = document.getElementById("bills-table-body");
     const totalSpan = document.getElementById("total-bills");
+
+    if (!tbody || !totalSpan) return;
 
     const today = new Date();
     const thirtyDaysFromNow = new Date();
     thirtyDaysFromNow.setDate(today.getDate() + 30);
 
+    tbody.innerHTML = "";
     let total = 0;
 
-    bills.forEach(bill => {
-        const billDate = new Date(bill.date);
-        if (billDate >= today && billDate <= thirtyDaysFromNow) {
-            const row = document.createElement("tr");
-            row.innerHTML = `<td>${bill.name}</td><td>${bill.date}</td><td>£${bill.amount.toFixed(2)}</td>`;
-            tbody.appendChild(row);
-            total += bill.amount;
-        }
+    // ✅ Sort by date
+    const upcomingBills = bills
+        .filter(bill => {
+            const billDate = new Date(bill.date);
+            return billDate >= today && billDate <= thirtyDaysFromNow;
+        })
+        .sort((a, b) => new Date(a.date) - new Date(b.date)); // Closest date first
+
+    // ✅ Render sorted bills
+    upcomingBills.forEach(bill => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${bill.name}</td>
+            <td>${bill.date}</td>
+            <td>£${bill.amount.toFixed(2)}</td>`;
+        tbody.appendChild(row);
+        total += bill.amount;
     });
 
     totalSpan.textContent = total.toFixed(2);
-}
-
-if (document.getElementById("upcoming-bills-widget")) {
-    initUpcomingBills();
 }
