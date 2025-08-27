@@ -7,11 +7,11 @@
     font-family: sans-serif;
 }
 #upcoming-bills-widget h3 {
-    margin: 0 0 0.25rem 0; /* Remove extra spacing below */
+    margin: 0 0 0.25rem 0; 
 }
 
 #upcoming-bills-widget p {
-    margin: 0 0 0.5rem 0; /* Tighten spacing under paragraph */
+    margin: 0 0 0.5rem 0; 
     color: var(--accent-color);
     font-weight: bold;
     text-align: center;
@@ -21,7 +21,7 @@
     flex: 1;
     overflow-y: auto;
     min-height: 0;
-    margin-top: 0; /* Remove extra space */
+    margin-top: 0; 
     border-radius: 6px;
     background-color: var(--widget-color);
     padding: 0;
@@ -41,7 +41,7 @@
 
 #upcoming-bills-widget table {
     width: 100%;
-    table-layout: fixed; /* Ensures clean full width */
+    table-layout: fixed; 
     border-collapse: separate;
     border-spacing: 0 8px;
 }
@@ -67,7 +67,6 @@
     border-bottom: none;
 }
 
-/* Optional: add space between columns */
 #upcoming-bills-widget td:not(:last-child) {
     padding-right: 24px;
 }
