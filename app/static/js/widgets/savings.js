@@ -1,3 +1,9 @@
+function formatDateToDDMMYYYY(dateStr) {
+  if (!dateStr || !dateStr.includes("-")) return dateStr;
+  const [year, month, day] = dateStr.split("-");
+  return `${day}/${month}/${year}`;
+}
+
 function initSavings() {
     const data = JSON.parse(localStorage.getItem("savings"));
     if (!data) return;
@@ -17,7 +23,8 @@ function initSavings() {
     });
 
     document.querySelector("#savings-widget .amount").textContent = formattedAmount;
-    document.querySelector("#savings-widget .goal-date").textContent = `Goal: ${goalDate}`;
+    document.querySelector("#savings-widget .goal-date")
+    .textContent = `Goal: ${formatDateToDDMMYYYY(goalDate)}`;
     document.querySelector("#savings-widget .goal-amount").textContent = `£${formattedGoalAmount}`;
 
     const circle = document.querySelector("#savings-widget .donut-fill");

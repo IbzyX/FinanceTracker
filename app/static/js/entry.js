@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const updateBtn = document.getElementById("update-savings");
     if (!form) return;
 
-    // Load saved values
+    // Load saved values (including instalment)
     const existingData = JSON.parse(localStorage.getItem("savings"));
     if (existingData) {
         form.amount.value = existingData.amount;
@@ -12,9 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
         form.percentage.value = existingData.percentage;
         form.goalAmount.value = existingData.goalAmount;
         form.goalDate.value = existingData.goalDate;
+        form.instalment.value = existingData.instalment || ""; // Load instalment value
     }
 
-    // Save on submit
+    // Save on submit (including instalment)
     form.addEventListener("submit", function (e) {
         e.preventDefault();
 
@@ -23,18 +24,26 @@ document.addEventListener("DOMContentLoaded", () => {
         const percentage = parseFloat(this.percentage.value);
         const goalAmount = parseFloat(this.goalAmount.value);
         const goalDate = this.goalDate.value;
+        const instalment = parseFloat(this.instalment.value); // Get instalment value
 
         if (isNaN(amount) || !interval || isNaN(percentage) || isNaN(goalAmount) || !goalDate) {
             alert("Please fill in all fields correctly.");
             return;
         }
 
-        const savingsData = { amount, interval, percentage, goalAmount, goalDate };
+        const savingsData = { 
+            amount, 
+            interval, 
+            percentage, 
+            goalAmount, 
+            goalDate,
+            instalment: isNaN(instalment) ? 0 : instalment // Save instalment if valid, else 0
+        };
         localStorage.setItem("savings", JSON.stringify(savingsData));
         alert("Savings data saved!");
     });
 
-    // Update with instalment
+    // Update with instalment (including instalment persistence)
     updateBtn.addEventListener("click", () => {
         const data = JSON.parse(localStorage.getItem("savings"));
         if (!data) {
@@ -49,14 +58,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         data.amount = parseFloat(data.amount) + instalment;
+        data.instalment = instalment; // Save the instalment value as well
+
         localStorage.setItem("savings", JSON.stringify(data));
 
         form.amount.value = data.amount.toFixed(2);
-        form.instalment.value = "";
+        form.instalment.value = data.instalment.toFixed(2); // Set the instalment field to the saved value
 
         alert("Savings updated!");
     });
 });
+
 
 
 
