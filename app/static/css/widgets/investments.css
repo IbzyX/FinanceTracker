@@ -5,3 +5,41 @@
     color: var(--text-color);
     
 }
+#Investments-widget .widget-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 15px;
+}
+
+#Investments-widget .widget-header h3 {
+  margin: 0;
+  font-weight: 700;
+  align-items: center;
+}
+
+#Investments-widget .widget-header select {
+    background-color: transparent;
+    color: var(--text-color);
+  min-width: 80px;
+  border-radius: 4px;
+  border: none;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+#Investments-widget .widget-header select option {
+    color: var(--text-color);
+    background-color: var(--widget-color);
+}
+
+
+#investments-chart {
+    max-height: 400px;
+    width: 100%;
+}
+.total-investments {
+    color: var(--text-color);
+    text-align: center;
+    margin-top: 0.5rem;
+}

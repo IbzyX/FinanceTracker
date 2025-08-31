@@ -1,4 +1,5 @@
 
+// ---- SAVINGS WIDGET ----
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("savings-form");
     const updateBtn = document.getElementById("update-savings");
@@ -69,6 +70,56 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+
+
+
+// ---- INVESTMENTS WIDGET ---- 
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("investment-entry-form");
+    if (!form) return;
+
+    // Load existing data
+    let saved = JSON.parse(localStorage.getItem("investments"));
+    let investments = [];
+
+    if (Array.isArray(saved)) {
+        investments = saved;
+    } else if (saved && typeof saved === "object") {
+        investments = [saved]; // migrate old data once
+    }
+
+    // Handle submit
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const investment = {
+            name: this.name.value,
+            type: this.type.value,
+            stockAmount: parseFloat(this.stockAmount.value) || 0,
+            currency: this.currency.value,
+            contributionInterval: this.contributionInterval.value,
+            contributionAmount: parseFloat(this.contributionAmount.value) || 0,
+            currentValue: parseFloat(this.currentValue.value) || 0,
+            annualReturn: parseFloat(this.annualReturn.value) || 0,
+            purchaseDate: this.purchaseDate.value
+        };
+
+        // Add new entry
+        investments.push(investment);
+
+        // Save back to localStorage
+        localStorage.setItem("investments", JSON.stringify(investments));
+
+        alert("Investment saved!");
+        form.reset();
+        
+        const canvas = document.getElementById("investment-chart");
+         if (canvas && typeof renderInvestmentProjection === "function") {
+            const ctx = canvas.getContext("2d");
+            renderInvestmentProjection(investments, ctx);
+         }
+    });
+});
 
 
 

@@ -34,13 +34,13 @@
 
                 <div class="saving input-row">
                     <select name="interval" required>
-                    <option value="" disabled selected>Select Intervals</option>
-                    <option value="daily">Daily</option>
-                    <option value="weekly">Weekly</option>
-                    <option value="monthly">Monthly</option>
-                    <option value="quarterly">Quarterly</option>
-                    <option value="half-year">Half Year</option>
-                    <option value="yearly">Yearly</option>
+                        <option value="" disabled selected>Select Intervals</option>
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                        <option value="quarterly">Quarterly</option>
+                        <option value="half-year">Half Year</option>
+                        <option value="yearly">Yearly</option>
                     </select>
                     <input type="number" step="0.01" name="instalment" placeholder="Instalment (£)" min="0" />
                     <input type="number" name="percentage" placeholder="AER (%)" min="0" max="20" step="0.01" required />
@@ -69,7 +69,76 @@
     </div>
 
     <div class="investments">
-        <h3>Investments</h3>
+        <div class="investments-container">
+            <h3 class="center-title">Investments</h3>
+
+            <form id="investment-entry-form">
+                <table id="investments-table" class="investments-display-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Currency</th>
+                            <th>Contribution Interval</th>
+                            <th>Current Value</th>
+                            <th>Annual Return</th>
+                            <th>Date of Purchase</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" name="name" placeholder="Name" required /></td>
+
+                            <td>
+                                <select name="type" required>
+                                    <option value="" disabled selected>Type</option>
+                                    <option value="stock">Stock</option>
+                                    <option value="ETF">ETF</option>
+                                    <option value="real-estate">Real Estate</option>
+                                </select>
+                            </td>
+
+                            <td><input type="number" name="stockAmount" placeholder="Amount" step="0.1" min="0" required /></td>
+
+                            <td>
+                                <select name="currency" required>
+                                    <option value="" disabled selected>Type</option>
+                                    <option value="GBP">£</option>
+                                    <option value="USD">$</option>
+                                    <option value="EURO">€</option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <div class="contribution-wrapper">                                
+                                    <select name="contributionInterval" required>
+                                        <option value="" disabled selected>Interval</option>
+                                        <option value="daily">Daily</option>
+                                        <option value="weekly">Weekly</option>
+                                        <option value="monthly">Monthly</option>
+                                        <option value="quarterly">Quarterly</option>
+                                        <option value="half-year">Half Year</option>
+                                        <option value="yearly">Yearly</option>
+                                    </select>
+                                    <input type="number" name="contributionAmount" placeholder="e.g. 100" required />
+                                </div>
+                            </td>
+
+                            <td><input type="number" name="currentValue" placeholder="Value" min="0" required /></td>
+
+                            <td><input type="number" name="annualReturn" placeholder="Return" step="0.01" min="0" max="100" required /></td>
+
+                            <td><input type="month" name="purchaseDate" required /></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="button-container">
+                    <button class="update-btn" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <div class="expense">

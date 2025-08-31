@@ -4,6 +4,7 @@
     --text-color: #f1f1f1;
     --widget-color: #404076;
     --accent-color: #6ce5e8;
+    --hover-color: #48e0e0;
     --widget-gap:15px;
     --chart-color-1: #6ce5e8;
     --chart-color-2: #41b8d5;
@@ -15,6 +16,7 @@ body.light {
     --text-color: #000232;
     --widget-color: #cbcbcb;
     --accent-color: #ff3bb4;
+    --hover-color: #e233a2;
     --widget-gap:15px;
     --chart-color-1: #ff3bb4;
     --chart-color-2: #ff65c4;
