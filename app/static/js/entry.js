@@ -1,3 +1,78 @@
+// ---- INCOME WIDGET ---- 
+document.addEventListener("DOMContentLoaded", () => {
+    const incomeForm = document.getElementById("income-form");
+    const incomeTable = document.getElementById("all-income-table-body");
+
+    function getIncome() {
+        return JSON.parse(localStorage.getItem("income")) || [];
+    }
+
+    function saveIncome(income) {
+        localStorage.setItem("income", JSON.stringify(income));
+    }
+
+    function renderIncomeTable() {
+        const income = getIncome();
+        incomeTable.innerHTML = "";
+
+        income.forEach((entry, index) => {
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${entry.name}</td>
+                <td>${entry.type}</td>
+                <td>£${entry.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                <td>${entry.frequency}</td>
+                <td>${entry.tax}%</td>
+                <td>
+                    <button class="income-remove" data-index="${index}" aria-label="Remove income">−</button>
+                </td>
+            `; // 
+
+            incomeTable.appendChild(row);
+        });
+    }
+
+    incomeTable?.addEventListener("click", (e) => {
+        if (e.target.classList.contains("income-remove")) {
+            const index = e.target.dataset.index;
+            const income = getIncome();
+            income.splice(index, 1);
+            saveIncome(income);
+            renderIncomeTable();
+        }
+    });
+
+    incomeForm?.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const newIncome = {
+            name: this.incomeName.value.trim(),
+            amount: parseFloat(this.incomeAmount.value),
+            tax: parseFloat(this.tax.value),
+            type: this.incomeType.value,
+            frequency: this.incomeFrequency.value
+            // 🔥 removed category (doesn’t exist in form)
+        };
+
+        const income = getIncome();
+        income.push(newIncome);
+        saveIncome(income);
+        renderIncomeTable();
+
+        this.reset(); // clear the form
+    });
+
+    // Initial render
+    renderIncomeTable();
+});
+
+
+
+
+
+
+
 
 // ---- SAVINGS WIDGET ----
 document.addEventListener("DOMContentLoaded", () => {
@@ -200,3 +275,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
     renderBillTable();
 });
+

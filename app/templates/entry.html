@@ -23,8 +23,65 @@
 {% block content %}
 <div class="entry">
     <div class="income">
-        <h3>Income</h3>
+        <div class="income-wrapper">
+            <h3 class="center-title">Savings</h3>
+
+            <div class="income-entry">
+                <form id="income-form" class="income-grid">
+                    <div class="income input-row">
+                        <input type="text" name="incomeName" placeholder="Name" required />
+                        <input type="number" step="0.01" name="incomeAmount" placeholder="Amount" required />
+                    </div>
+                    
+                    <div class="income input-row">
+                        <input type="number" name="tax" placeholder="Tax (%)" required />
+                        <select name="incomeType" required>
+                            <option value="" disabled selected>Select Type</option>
+                            <option value="fixed">Fixed</option>
+                            <option value="freelance">Freelance</option>
+                            <option value="passive">Passive</option>
+                        </select>
+
+                        <select name="incomeFrequency" required>
+                            <option value="" disabled selected>Select Frequency</option>
+                            <option value="oneTime">One Time</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="quarterly">Quarterly</option>
+                            <option value="annual">Annual</option>
+                        </select>
+                    </div>
+                    
+                    <div class="button-row">
+                        <button type="submit" class="add-income">Update</button>
+                    </div>
+                </form>
+
+                <div class="table-container">
+                    <table class="income-table">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Frequency</th>
+                            <th>Tax</th>
+                            <th></th>
+                            
+                        </tr>
+                        </thead>
+                        <tbody id="all-income-table-body">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+ 
     </div>
+
+
+
 
     <div class="savings">
         <div class="savings-entry">

@@ -63,6 +63,65 @@
 
 
 /* ==== INCOME WIDGET ==== */
+.income-entry {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    width: 100%;
+    border-radius: 10px;
+    gap: 1rem;
+}
+.income-form input {
+    display: grid;
+    grid-template-rows: repeat(2, 1fr) auto;
+    gap: var(--widget-gap);
+    padding: 0.5rem;
+    
+}
+.add-income {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    font-weight: bold;
+    margin-bottom: 0;
+    justify-content: center;
+    cursor: pointer;
+}
+.income-grid {
+    display: flex;
+    flex-direction: column;
+    grid-template-rows: repeat(2, 1fr) auto;
+    gap: var(--widget-gap, 0.5rem);
+}
+.income-grid input,
+.add-income {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+}
+.income-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.income-table th,
+.income-table td {
+    padding: 0.5rem;
+    text-align: center;
+    border-left: 1px solid var(--accent-color);
+}
+.income-remove {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    line-height: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 
 
@@ -123,13 +182,6 @@
     color: var(--text-color);
     max-width: 100%;
     margin: 0 auto;
-}
-
-.center-title {
-    text-align: center;
-    margin-bottom: 1rem;
-    color: var(--text-color);
-    font-weight: bold;
 }
 
 #investments-table {
@@ -259,8 +311,9 @@
     cursor: pointer;
     }
 .table-container {
-    max-height: 200px;
+    max-height: 350px;
     overflow-y: auto;
+    overflow-x: auto;
     color: var(--text-color);
 }
 /* Hide scroll bar while keeping scrollable */
