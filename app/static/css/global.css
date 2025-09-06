@@ -9,6 +9,7 @@
     --chart-color-1: #6ce5e8;
     --chart-color-2: #41b8d5;
     --chart-color-3: #2d8bba;
+    --chart-color-4: #635a92;
 
 }
 body.light {
@@ -21,6 +22,7 @@ body.light {
     --chart-color-1: #ff3bb4;
     --chart-color-2: #ff65c4;
     --chart-color-3: #d10ba6;
+    --chart-color-4: #a22c88;
 }
 body {
     margin: 0;

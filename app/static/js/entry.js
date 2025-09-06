@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>
                     <button class="income-remove" data-index="${index}" aria-label="Remove income">−</button>
                 </td>
-            `; // 
+            `; 
 
             incomeTable.appendChild(row);
         });
@@ -52,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
             tax: parseFloat(this.tax.value),
             type: this.incomeType.value,
             frequency: this.incomeFrequency.value
-            // 🔥 removed category (doesn’t exist in form)
         };
 
         const income = getIncome();
@@ -60,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
         saveIncome(income);
         renderIncomeTable();
 
-        this.reset(); // clear the form
+        this.reset(); 
     });
 
     // Initial render
