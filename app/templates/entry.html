@@ -24,7 +24,7 @@
 <div class="entry">
     <div class="income">
         <div class="income-wrapper">
-            <h3 class="center-title">Savings</h3>
+            <h3 class="center-title">Income</h3>
 
             <div class="income-entry">
                 <form id="income-form" class="income-grid">
@@ -199,7 +199,48 @@
     </div>
 
     <div class="expense">
-        <h3>Expense</h3>
+        <div class="expense-entry">
+            <h3 class="center-title">Expense</h3>
+            <form id="expense-form" class="form-grid">
+                <div class="input-row">
+                        <select name="expenseInterval">
+                        <option value="" disabled selected>Interval</option>
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                        <option value="quarterly">Quarterly</option>
+                        <option value="half-year">Half Year</option>
+                        <option value="yearly">Yearly</option>
+                    </select>
+                    <input type="text" name="name" placeholder="Input Name" required />
+                </div>
+                <div class="input-row">
+                    <input type="number" name="occurrence" placeholder="Occurrence" required />
+                    <input type="number" name="expenseAmount" placeholder="Amount" required />
+                </div>
+
+                <div class="button-row">
+                    <button type="submit" class="add-expense-btn">+</button>
+                </div>
+            </form>
+            <div class="table-container">
+                <table class="expense-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Occurrence</th>
+                            <th>Amount</th>
+                            <th>Intervals</th>
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="all-expenses-table-body">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>  
     </div>
 
     <div class="bills">
@@ -229,7 +270,7 @@
                         </tr>
                     </thead>
                     <tbody id="all-bills-table-body">
-                        <!-- JS injects rows here -->
+
                     </tbody>
                 </table>
             </div>

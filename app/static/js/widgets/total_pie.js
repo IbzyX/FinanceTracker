@@ -4,7 +4,6 @@ function getCSSVariable(name) {
     return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 }
 
-// --- Data sources from widgets ---
 function getIncomeTotal() {
     const income = JSON.parse(localStorage.getItem("income")) || [];
     return income.reduce((sum, entry) => sum + (parseFloat(entry.amount) || 0), 0);
@@ -21,39 +20,37 @@ function getInvestmentsTotal() {
     return investments.reduce((sum, entry) => sum + (parseFloat(entry.currentValue) || 0), 0);
 }
 
-function getExpensesTotal() {
-    // ⚠️ Placeholder for future expenses widget
-    return 0;
-}
+/*function getExpensesTotal() {
+    const expenses = JSON.parse(localStorage.getItem("expense")) || []; // 
+    return expenses.reduce((sum, entry) => sum + (parseFloat(entry.expenseAmount) || 0), 0);
+}*/
 
-// --- Chart Init ---
 function initTotal_pie() {
     const ctx = document.getElementById("totalpie").getContext("2d");
 
-    // Pull data from storage
+
     const data = [
-        getExpensesTotal(),   // Wants/Expenses
-        getIncomeTotal(),     // Income
-        getSavingsTotal(),    // Savings
-        getInvestmentsTotal() // Investments
+        //getExpensesTotal(),  add for expense 
+        getIncomeTotal(),     
+        getSavingsTotal(),    
+        getInvestmentsTotal() 
     ];
 
-    const labels = ["Wants", "Income", "Savings", "Investments"];
+    const labels = [/*"Expense",*/"Income", "Savings", "Investments"];
     const backgroundColors = [
         getCSSVariable('--chart-color-1'),
         getCSSVariable('--chart-color-2'),
-        getCSSVariable('--chart-color-3'),
-        getCSSVariable('--chart-color-4')
+        getCSSVariable('--chart-color-3')
+//        getCSSVariable('--chart-color-4')
     ];
 
-    // Plugin for total text inside center
     const centerTextPlugin = {
         id: 'centerText',
         beforeDraw(chart) {
             const { width, height, ctx } = chart;
             ctx.restore();
 
-            const fontSize = (height / 100).toFixed(2);
+            const fontSize = (height / 110).toFixed(2);
             ctx.font = `${fontSize}em sans-serif`;
             ctx.textBaseline = "middle";
             ctx.textAlign = "center";
@@ -66,7 +63,6 @@ function initTotal_pie() {
         }
     };
 
-    // Destroy old chart if reloading
     if (totalPieChart) {
         totalPieChart.destroy();
     }
@@ -94,7 +90,6 @@ function initTotal_pie() {
         plugins: [centerTextPlugin]
     });
 
-    // Breakdown legend outside the chart
     const breakdown = document.getElementById("category-breakdown");
     breakdown.innerHTML = labels.map((label, i) => {
         return `

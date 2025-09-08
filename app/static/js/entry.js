@@ -202,9 +202,71 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+// ---- EXPENSE WIDGET ----  
+document.addEventListener("DOMContentLoaded", () => {
+    const expenseForm = document.getElementById("expense-form");
+    const expenseTable = document.getElementById("all-expenses-table-body");
 
+    function getExpense() {
+        return JSON.parse(localStorage.getItem("expense")) || [];
+    }
+    function saveExpense(expense) {
+        localStorage.setItem("expense", JSON.stringify(expense));
+    }
 
+    function renderExpenseTable() {
+        if (!expenseTable) return;
 
+        const expense = getExpense();
+        expenseTable.innerHTML = "";
+
+        expense.forEach((exp, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${exp.name}</td>
+                <td>${exp.occurrence}</td>
+                <td>£${exp.expenseAmount.toFixed(2)}</td>
+                <td>${exp.expenseInterval}</td>
+                <td><button class="remove-btn" data-index="${index}">−</button></td>
+            `;
+            expenseTable.appendChild(row);
+        });
+    }
+
+    expenseTable?.addEventListener("click", (e) => {
+        if (e.target.classList.contains("remove-btn")) {
+            const index = e.target.dataset.index;
+            const expense = getExpense();
+            expense.splice(index, 1);
+            saveExpense(expense);
+            renderExpenseTable();
+        }
+    });
+
+    expenseForm?.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const expenseInterval = this.expenseInterval.value; 
+        const name = this.name.value.trim();
+        const occurrence = parseFloat(this.occurrence.value);
+        const expenseAmount = parseFloat(this.expenseAmount.value);
+
+        if (!name || isNaN(occurrence) || isNaN(expenseAmount) || !expenseInterval) {
+            alert("Please fill in all fields correctly.");
+            return;
+        }
+
+        const newExpense = { name, expenseInterval, occurrence, expenseAmount };
+        const expenses = getExpense();
+        expenses.push(newExpense);
+        saveExpense(expenses);
+
+        this.reset();
+        renderExpenseTable();
+    });
+
+    renderExpenseTable();
+});
 
 
 

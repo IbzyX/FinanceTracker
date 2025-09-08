@@ -262,7 +262,37 @@
 
 
 /* ==== EXPENSES WIDGET ==== */
-
+.expense-entry {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    color: white;
+    height: 100%;
+    width: 100%;
+}
+.add-expense-btn {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    font-weight: bold;
+    width: 2.5rem;
+    height: 2.5rem;
+    justify-content: center;
+    cursor: pointer;
+}
+.expense-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.expense-table th,
+.expense-table td {
+    padding: 0.5rem;
+    text-align: center;
+    border-bottom: 1px solid var(--accent-color);
+}
 
 
 /* ==== BILLS WIDGET ==== */
