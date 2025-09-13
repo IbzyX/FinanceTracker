@@ -1,7 +1,133 @@
+/* --- Widget Container --- */
 #habits-widget {
     padding: 1rem;
     background-color: var(--widget-color);
     border-radius: 10px;
     color: var(--text-color);
-    
+    display: flex;
+    flex-direction: column;
+  
+}
+/* Heading */
+#habits-widget h3 {
+    margin: 0 0 0.5rem 0;
+    text-align: center;
+    font-weight: bold;
+}
+
+
+
+
+
+
+/* Layout: Chart + Table */
+.habits-layout {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+
+
+/* --- Radar Chart --- */
+.chart-container {
+    flex: 0 0 auto;          
+    width: 225px;            
+    height: 200px;           
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#radarChart {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
+
+
+
+
+/* --- Table --- */
+.habits-table-container {
+    flex: 1 1 auto;          
+    display: flex;
+    flex-direction: column;
+    max-height: 300px;       
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+
+.habits-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+
+.habits-table thead th {
+    position: sticky;        
+    top: 0;
+    background-color: var(--widget-color);
+    padding: 6px 8px;
+    text-align: center;
+    font-weight: bold;
+    color: var(--accent-color);
+    z-index: 1;
+}
+
+
+
+
+.habits-table tbody {
+    display: block;          
+    max-height: calc(200px - 40px); 
+    overflow-y: auto;
+    width: 100%;
+}
+
+.habits-table thead,
+.habits-table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.habits-table td {
+    padding: 8px 12px;
+    font-weight: bold;
+    text-align: center;
+    background-color: var(--widget-color);
+}
+
+.habits-table tbody tr {
+    border-bottom: 2px solid var(--accent-color);
+}
+
+.habits-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.habits-table tbody tr:hover td {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+
+
+
+/* Scrollbar styling */
+.habits-table tbody::-webkit-scrollbar {
+    width: 6px;
+}
+.habits-table tbody::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+.habits-table tbody::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
 }
