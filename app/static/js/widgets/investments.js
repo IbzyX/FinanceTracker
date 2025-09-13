@@ -9,9 +9,20 @@ function initInvestments() {
         console.warn("No investment data found.");
         return;
     }
-    
-    renderInvestmentProjection(saved, ctx);
+
+    const yearSelect = document.getElementById("years");
+    const initialYears = parseInt(yearSelect.value, 10);
+
+    // Initial render with selected years
+    renderInvestmentProjection(saved, ctx, initialYears);
+
+    // Re-render when dropdown changes
+    yearSelect.addEventListener("change", () => {
+        const years = parseInt(yearSelect.value, 10);
+        renderInvestmentProjection(saved, ctx, years);
+    });
 }
+
 
 window.investmentChart = null;
 
@@ -50,20 +61,6 @@ function renderInvestmentProjection(investments, ctx, years = 10) {
         tension: 0.3
     });
 
-
-
-    // Base deposits line (initial + contributions, no growth)
-    const baseDeposits = combineBaseDeposits(investments, years);
-    datasets.push({
-        label: "Base Deposits (£)",
-        data: baseDeposits,
-        borderColor: "#ffa500", // orange
-        backgroundColor: "transparent",
-        borderDash: [2, 2],
-        fill: false,
-        tension: 0.3
-    });
-
     if (window.investmentChart) {
         window.investmentChart.destroy();
     }
@@ -79,7 +76,42 @@ function renderInvestmentProjection(investments, ctx, years = 10) {
             plugins: {
                 legend: {
                     position: "top"
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const datasetLabel = context.dataset.label || "";
+                            const value = context.parsed.y;
+
+                            if (!datasetLabel.includes("Total Projected Value")) {
+                                const yearIndex = context.dataIndex;
+                                const investment = investments[context.datasetIndex];  
+                                const baseDeposits = combineBaseDeposits([investment], years);  
+                                const baseForYear = baseDeposits[yearIndex];
+
+                                return [
+                                    `${datasetLabel}: £${value.toLocaleString()}`,
+                                    `Base Amount: £${baseForYear.toLocaleString()}`
+                                ];
+                            }
+
+                            if (datasetLabel.includes("Total Projected Value")) {
+                                const yearIndex = context.dataIndex;
+                                const baseDeposits = combineBaseDeposits(investments, years);
+                                const baseForYear = baseDeposits[yearIndex];
+
+                                return [
+                                    `${datasetLabel}: £${value.toLocaleString()}`,
+                                    `Base Deposits: £${baseForYear.toLocaleString()}`
+                                ];
+                            }
+
+                            // Default fallback (just the label)
+                            return `${datasetLabel}: £${value.toLocaleString()}`;
+                        }
+                    }
                 }
+
             },
             scales: {
                 y: {
@@ -92,21 +124,21 @@ function renderInvestmentProjection(investments, ctx, years = 10) {
         }
     });
 
+    // Update bottom display
     const finalTotal = combined[combined.length - 1];
-    const finalBase = baseDeposits[baseDeposits.length - 1];
+    const finalBase = combineBaseDeposits(investments, years)[years];
     const totalDisplay = document.getElementById("total-investments");
 
     if (totalDisplay) {
         const difference = finalTotal - finalBase;
-        // Show difference with + or - sign, formatted
         const diffFormatted = difference >= 0 
             ? `£${difference.toLocaleString()}`
             : `£${Math.abs(difference).toLocaleString()}`;
 
         totalDisplay.textContent = `Total Value After ${years} Years: £${finalTotal.toLocaleString()} (Difference: ${diffFormatted})`;
     }
-
 }
+
 
 function getProjection(investment, years) {
     const result = [];

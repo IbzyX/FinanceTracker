@@ -15,13 +15,25 @@ function initUpcoming_bills() {
     tbody.innerHTML = "";
     let total = 0;
 
-    // ✅ Sort by date
-    const upcomingBills = bills
+    // ✅ Adjust bills with past dates by rolling them forward to the next month
+    const adjustedBills = bills.map(bill => {
+        let billDate = new Date(bill.date);
+
+        // 🔥 If bill is in the past, keep adding 1 month until it's in the future
+        while (billDate < today) {
+            billDate.setMonth(billDate.getMonth() + 1);
+        }
+
+        return { ...bill, date: billDate.toISOString().split("T")[0] }; 
+    });
+
+    // ✅ Filter and sort upcoming bills
+    const upcomingBills = adjustedBills
         .filter(bill => {
             const billDate = new Date(bill.date);
             return billDate >= today && billDate <= thirtyDaysFromNow;
         })
-        .sort((a, b) => new Date(a.date) - new Date(b.date)); // Closest date first
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
 
     // ✅ Render sorted bills
     upcomingBills.forEach(bill => {
