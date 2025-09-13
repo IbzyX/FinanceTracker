@@ -5,3 +5,22 @@
     color: var(--text-color);
     
 }
+.cashflow-container {
+    display: flex; 
+    align-items: center;
+}
+.cashflow-chart {
+    max-width: 400px;
+    max-height: 100%;
+}
+#totals {
+    margin: 0 20px 0 20px;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+.cashflow-total-label {
+    font-weight: bold;
+}
+.cashflow-total-value {
+    color: var(--text-color)
+}
