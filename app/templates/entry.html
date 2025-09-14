@@ -129,74 +129,94 @@
         <div class="investments-container">
             <h3 class="center-title">Investments</h3>
 
-            <form id="investment-entry-form">
-                <table id="investments-table" class="investments-display-table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Amount</th>
-                            <th>Currency</th>
-                            <th>Contribution Interval</th>
-                            <th>Current Value</th>
-                            <th>Annual Return</th>
-                            <th>Date of Purchase</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><input type="text" name="name" placeholder="Name" required /></td>
+            <button id="toggle-investment-view" class="toggle-btn">&#8594;</button>
 
-                            <td>
-                                <select name="type" required>
-                                    <option value="" disabled selected>Type</option>
-                                    <option value="stock">Stock</option>
-                                    <option value="ETF">ETF</option>
-                                    <option value="real-estate">Real Estate</option>
-                                </select>
-                            </td>
-
-                            <td><input type="number" name="stockAmount" placeholder="Amount" step="0.1" min="0" required /></td>
-
-                            <td>
-                                <select name="currency" required>
-                                    <option value="" disabled selected>Type</option>
-                                    <option value="GBP">£</option>
-                                    <option value="USD">$</option>
-                                    <option value="EURO">€</option>
-                                </select>
-                            </td>
-
-                            <td>
-                                <div class="contribution-wrapper">                                
-                                    <select name="contributionInterval" required>
-                                        <option value="" disabled selected>Interval</option>
-                                        <option value="daily">Daily</option>
-                                        <option value="weekly">Weekly</option>
-                                        <option value="monthly">Monthly</option>
-                                        <option value="quarterly">Quarterly</option>
-                                        <option value="half-year">Half Year</option>
-                                        <option value="yearly">Yearly</option>
+            <div id="investment-form-section" class="investment-form-section">
+                <form id="investment-entry-form">
+                    <table id="investments-table" class="investments-display-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Currency</th>
+                                <th>Contribution Interval</th>
+                                <th>Current Value</th>
+                                <th>Annual Return</th>
+                                <th>Date of Purchase</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="text" name="name" placeholder="Name" required /></td>
+                                <td>
+                                    <select name="type" required>
+                                        <option value="" disabled selected>Type</option>
+                                        <option value="stock">Stock</option>
+                                        <option value="ETF">ETF</option>
+                                        <option value="real-estate">Real Estate</option>
                                     </select>
-                                    <input type="number" name="contributionAmount" placeholder="e.g. 100" required />
-                                </div>
-                            </td>
+                                </td>
+                                <td><input type="number" name="stockAmount" placeholder="Amount" step="0.1" min="0" required /></td>
+                                <td>
+                                    <select name="currency" required>
+                                        <option value="" disabled selected>Type</option>
+                                        <option value="GBP">£</option>
+                                        <option value="USD">$</option>
+                                        <option value="EURO">€</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <div class="contribution-wrapper">
+                                        <select name="contributionInterval" required>
+                                            <option value="" disabled selected>Interval</option>
+                                            <option value="daily">Daily</option>
+                                            <option value="weekly">Weekly</option>
+                                            <option value="monthly">Monthly</option>
+                                            <option value="quarterly">Quarterly</option>
+                                            <option value="half-year">Half Year</option>
+                                            <option value="yearly">Yearly</option>
+                                        </select>
+                                        <input type="number" name="contributionAmount" placeholder="e.g. 100" required />
+                                    </div>
+                                </td>
+                                <td><input type="number" name="currentValue" placeholder="Value" min="0" required /></td>
+                                <td><input type="number" name="annualReturn" placeholder="Return" step="0.01" min="0" max="100" required /></td>
+                                <td><input type="month" name="purchaseDate" required /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="button-container">
+                        <button class="update-btn" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
 
-                            <td><input type="number" name="currentValue" placeholder="Value" min="0" required /></td>
+            <div id="investment-table-section" class="investment-table-section">
+                <div class="investment-table-wrapper">
+                    <table class="investment-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Currency</th>
+                                <th>Contribution Interval</th>
+                                <th>Current Value</th>
+                                <th>Annual Return</th>
+                                <th>Date of Purchase</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="investment-list">
 
-                            <td><input type="number" name="annualReturn" placeholder="Return" step="0.01" min="0" max="100" required /></td>
-
-                            <td><input type="month" name="purchaseDate" required /></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="button-container">
-                    <button class="update-btn" type="submit">Submit</button>
+                        </tbody>
+                    </table>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
+
 
     <div class="expense">
         <div class="expense-entry">

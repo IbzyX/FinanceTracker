@@ -17,7 +17,7 @@ function getSavingsTotal() {
 function getInvestmentsTotal() {
     const investments = JSON.parse(localStorage.getItem("investments")) || [];
     if (!Array.isArray(investments)) return 0;
-    return investments.reduce((sum, entry) => sum + (parseFloat(entry.currentValue) || 0), 0);
+    return investments.reduce((sum, entry) => sum + (parseFloat(entry.stockAmount) || 0), 0);
 }
 
 /*function getExpensesTotal() {

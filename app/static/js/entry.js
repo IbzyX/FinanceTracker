@@ -150,19 +150,62 @@ document.addEventListener("DOMContentLoaded", () => {
 // ---- INVESTMENTS WIDGET ---- 
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("investment-entry-form");
+    const toggleButton = document.getElementById("toggle-investment-view");
+    const investmentFormSection = document.getElementById("investment-form-section");
+    const investmentTableSection = document.getElementById("investment-table-section");
+    const investmentList = document.getElementById("investment-list");
+
     if (!form) return;
 
-    // Load existing data
+    // Load existing data from localStorage
     let saved = JSON.parse(localStorage.getItem("investments"));
-    let investments = [];
+    let investments = saved || [];
 
-    if (Array.isArray(saved)) {
-        investments = saved;
-    } else if (saved && typeof saved === "object") {
-        investments = [saved]; // migrate old data once
+    // Function to render investments in the table
+    function renderInvestments() {
+        investmentList.innerHTML = ""; // Clear current table content
+        investments.forEach((investment, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${investment.name}</td>
+                <td>${investment.type}</td>
+                <td>${investment.stockAmount}</td>
+                <td>${investment.currency}</td>
+                <td>${investment.contributionInterval}</td>
+                <td>${investment.currentValue}</td>
+                <td>${investment.annualReturn}</td>
+                <td>${investment.purchaseDate}</td>
+                <td><button class="delete-btn" data-index="${index}">−</button></td>
+            `;
+            investmentList.appendChild(row);
+        });
+
+        // Add delete button functionality
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const index = e.target.getAttribute('data-index');
+                deleteInvestment(index);
+            });
+        });
     }
 
-    // Handle submit
+    renderInvestments(); // Initial render
+
+    // Toggle between view modes
+    toggleButton.addEventListener("click", () => {
+        if (investmentFormSection.style.display === "none") {
+            investmentFormSection.style.display = "block";
+            investmentTableSection.style.display = "none";
+            toggleButton.classList.add("show-form"); // Rotate the arrow
+        } else {
+            investmentFormSection.style.display = "none";
+            investmentTableSection.style.display = "block";
+            toggleButton.classList.remove("show-form"); // Reset the arrow
+        }
+    });
+
+    // Handle form submission (new investment entry)
     form.addEventListener("submit", function (e) {
         e.preventDefault();
 
@@ -178,22 +221,22 @@ document.addEventListener("DOMContentLoaded", () => {
             purchaseDate: this.purchaseDate.value
         };
 
-        // Add new entry
-        investments.push(investment);
-
-        // Save back to localStorage
-        localStorage.setItem("investments", JSON.stringify(investments));
-
+        investments.push(investment); // Add new investment to the array
+        localStorage.setItem("investments", JSON.stringify(investments)); // Save updated array to localStorage
+        
         alert("Investment saved!");
         form.reset();
-        
-        const canvas = document.getElementById("investment-chart");
-         if (canvas && typeof renderInvestmentProjection === "function") {
-            const ctx = canvas.getContext("2d");
-            renderInvestmentProjection(investments, ctx);
-         }
+        renderInvestments(); // Re-render table with new investment
     });
+
+    // Function to delete an investment
+    function deleteInvestment(index) {
+        investments.splice(index, 1); // Remove the investment at the specified index
+        localStorage.setItem("investments", JSON.stringify(investments)); // Save updated array to localStorage
+        renderInvestments(); // Re-render the table
+    }
 });
+
 
 
 

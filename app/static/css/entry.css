@@ -179,9 +179,12 @@
 
 /* ==== INVESTMENTS WIDGET ==== */
 .investments-container {
+    position: relative;
     color: var(--text-color);
     max-width: 100%;
     margin: 0 auto;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #investments-table {
@@ -253,6 +256,87 @@
 }
 
 .update-btn:hover {
+    background-color: var(--hover-color);
+}
+
+
+/* === INVESTMENT TABLE SECOND SECTION === */
+#investment-table-section .investment-table-wrapper {
+    overflow-y: auto;  /* Vertical scroll */
+    max-height: 150px;  /* Adjust based on your needs */
+    margin-top: 10px; /* Optional: Adds spacing above the table */
+}
+
+.investment-form-section {
+    display: block;
+}
+.investment-table-section {
+    display: none;
+    transition: opacity 0.3s ease;
+}
+.toggle-btn {
+    position: absolute;
+    top: 10%;
+    right: -10px; /* Adjust the distance from the right edge */
+    transform: translateY(-50%); /* Center vertically */
+    background-color: var(--accent-color); /* Green color */
+    color: var(--text-color);
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 24px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.investment-table-wrapper::-webkit-scrollbar {
+    width: 6px;
+}
+.investment-table-wrapper::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+.investment-table-wrapper::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+.toggle-btn {
+    display:center;
+}
+.toggle-btn:hover {
+    background-color: var(--hover-color);
+    transform: translateY(-50%) scale(1.1); /* Slightly scale up on hover */
+}
+.toggle-btn.show-form {
+    transform: translateY(-50%) rotate(180deg); /* Rotate the arrow */
+}
+.investment-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.investment-table th,
+.investment-table td {
+    padding: 0.5rem;
+    text-align: center;
+    border-bottom: 1px solid var(--accent-color);
+}
+
+.delete-btn {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    line-height: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete-btn:hover {
     background-color: var(--hover-color);
 }
 
