@@ -5,93 +5,98 @@ function getIncome() {
 function getExpense() {
     return JSON.parse(localStorage.getItem("expense")) || [];
 }
+
 function getBills() {
     return JSON.parse(localStorage.getItem("bills")) || [];
 }
 
-
 function calculateTotalIncome() {
     const income = getIncome();
-    return income.reduce((total, entry) => total + entry.amount, 0);
+    return income.reduce((total, entry) => total + (parseFloat(entry.amount) || 0), 0);
 }
 
 function calculateTotalExpense() {
     const expenses = getExpense();
-    return expenses.reduce((total, exp) => total + exp.expenseAmount, 0);
+    return expenses.reduce((total, exp) => total + (parseFloat(exp.expenseAmount) || 0), 0);
 }
+
 function calculateTotalBills() {
     const bills = getBills();
-    return bills.reduce((total, bill) => total + bill.amount, 0);
+    return bills.reduce((total, bill) => total + (parseFloat(bill.amount) || 0), 0);
 }
 
+function initCashflow_chart(container = document) {
+    console.log("📊 initCashflow_chart called");
 
+    const canvas = container.querySelector("#cashflow-chart");
+    const incomeTotalEl = container.querySelector("#income-total");
+    const expenseTotalEl = container.querySelector("#expense-total");
+    const billsTotalEl = container.querySelector("#bills-total");
 
-function initCashflow_chart() {
-    const canvas = document.getElementById("cashflow-chart");
-    if (!canvas) return;
+    if (!canvas || !incomeTotalEl || !expenseTotalEl || !billsTotalEl) {
+        console.warn("⚠️ Cashflow chart elements not found in container", container);
+        return;
+    }
 
     const ctx = canvas.getContext("2d");
 
-    
     const totalIncome = calculateTotalIncome();
     const totalExpense = calculateTotalExpense();
     const totalBills = calculateTotalBills();
 
-    document.getElementById("income-total").textContent =  `£${totalIncome.toLocaleString()}`;
-    document.getElementById("expense-total").textContent =  `£${totalExpense.toLocaleString()}`;
-    document.getElementById("bills-total").textContent =  `£${totalBills.toLocaleString()}`;
+    incomeTotalEl.textContent = `£${totalIncome.toLocaleString()}`;
+    expenseTotalEl.textContent = `£${totalExpense.toLocaleString()}`;
+    billsTotalEl.textContent = `£${totalBills.toLocaleString()}`;
 
-    const data = {
-        labels: [''], 
-        datasets: [
-            {
-                label: 'Income',
-                data: [totalIncome], 
-                backgroundColor: '#6ce5e8', 
-                borderColor: '#48e0e0', 
-                borderWidth: 1,
-                stack: 'stack1'
-            },
-            {
-                label: 'Expense',
-                data: [totalExpense], 
-                backgroundColor: '#ff3bb4', 
-                borderColor: '#e233a2', 
-                borderWidth: 1,
-                stack: 'stack2'
-            },
-            {
-                label: 'Bills',
-                data: [totalBills],
-                backgroundColor: '#ff9800',
-                borderColor: '#f57c00',
-                borderWidth: 1,
-                stack: 'stack2' 
-            }
-        ]
-    };
-
-    if (window.cashflowChart) {
-        window.cashflowChart.destroy();
+    // If chart exists, destroy it before creating a new one
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) {
+        existingChart.destroy();
     }
 
-    window.cashflowChart = new Chart(ctx, {
-        type: 'bar',  
-        data: data,
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [''],
+            datasets: [
+                {
+                    label: 'Income',
+                    data: [totalIncome],
+                    backgroundColor: '#6ce5e8',
+                    borderColor: '#48e0e0',
+                    borderWidth: 1,
+                    stack: 'stack1'
+                },
+                {
+                    label: 'Expense',
+                    data: [totalExpense],
+                    backgroundColor: '#ff3bb4',
+                    borderColor: '#e233a2',
+                    borderWidth: 1,
+                    stack: 'stack2'
+                },
+                {
+                    label: 'Bills',
+                    data: [totalBills],
+                    backgroundColor: '#ff9800',
+                    borderColor: '#f57c00',
+                    borderWidth: 1,
+                    stack: 'stack2'
+                }
+            ]
+        },
         options: {
             responsive: true,
-            indexAxis: 'y',  
+            indexAxis: 'y',
             scales: {
                 x: {
                     beginAtZero: true,
                     stacked: true,
                     ticks: {
-                        callback: function(value) {
-                            return `£${value.toLocaleString()}`; 
-                        }
+                        callback: (value) => `£${value.toLocaleString()}`
                     },
                     grid: {
-                        display: false,
+                        display: false
                     }
                 },
                 y: {
@@ -104,13 +109,12 @@ function initCashflow_chart() {
             },
             plugins: {
                 legend: {
-                    position: 'top', 
+                    position: 'top'
                 }
             }
         }
     });
 }
 
-window.onload = function() {
-    initCashflow_chart();
-};
+// 🔄 Re-render on localStorage changes
+window.addEventListener("storage", () => initCashflow_chart(document));

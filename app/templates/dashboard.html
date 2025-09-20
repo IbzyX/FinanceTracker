@@ -31,14 +31,79 @@
 
 {% block content %}
 <div class="dashboard">
-    <div class="widget-slot large" data-widget="total_pie"></div>
-    <div class="widget-slot medium" data-widget="upcoming_bills"></div>
-    <div class="widget-slot medium" data-widget="habits"></div>
-    <div class="widget-slot small" data-widget="savings"></div>
-    <div class="widget-slot medium" data-widget="cashflow_chart"></div>
-    <div class="widget-slot large" data-widget="savings_projection"></div>
-    <div class="widget-slot large" data-widget="Investments"></div>
-    <div class="widget-slot medium" data-widget="debt"></div>
+    <div class="widget-slot large" data-widget="total_pie">
+        <select class="widget-dropdown">
+            <option value="total_pie">Total Pie</option>
+            <option value="savings_projection">Savings Projection</option>
+            <option value="investments">Investments</option>
+        </select>
+        <div class="widget-content"></div>
+    </div>
+
+    <div class="widget-slot medium" data-widget="upcoming_bills">
+        <select class="widget-dropdown">
+            <option value="upcoming_bills">Upcoming Bills</option>
+            <option value="cashflow_chart">Cashflow</option>
+            <option value="habits">Habits</option>
+            <option value="">Debt</option>
+        </select>
+        <div class="widget-content"></div>
+    </div>
+
+    <div class="widget-slot medium" data-widget="habits">
+        <select class="widget-dropdown">
+            <option value="habits">Habits</option>
+            <option value="cashflow_chart">Cashflow</option>
+            <option value="upcoming_bills">Upcoming Bills</option>
+            <option value="">Debt</option>
+        </select>
+        <div class="widget-content"></div>
+    </div>
+
+    <div class="widget-slot small" data-widget="savings">
+        <select class="widget-dropdown">
+            <option value="savings">Savings</option>
+        </select>
+        <div class="widget-content"></div>
+    </div>
+
+    <div class="widget-slot medium" data-widget="cashflow_chart">
+        <select class="widget-dropdown">
+            <option value="cashflow_chart">Cashflow</option>
+            <option value="habits">Habits</option>
+            <option value="upcoming_bills">Upcoming Bills</option>
+            <option value="">Debt</option>
+        </select>
+        <div class="widget-content"></div>
+    </div>
+
+    <div class="widget-slot large" data-widget="savings_projection">
+        <select class="widget-dropdown">
+            <option value="savings_projection">Savings Projection</option>
+            <option value="total_pie">Total Pie</option>
+            <option value="investments">Investments</option>
+        </select>
+        <div class="widget-content"></div>
+    </div>
+    
+    <div class="widget-slot large" data-widget="Investments">
+        <select class="widget-dropdown">
+            <option value="investments">Investments</option>
+            <option value="savings_projection">Savings Projection</option>
+            <option value="total_pie">Total Pie</option>
+        </select>
+        <div class="widget-content"></div>
+    </div>
+    
+    <div class="widget-slot medium" data-widget="debt">
+        <select class="widget-dropdown">
+            <option value="debt">Debt</option>
+            <option value="cashflow_chart">Cashflow</option>
+            <option value="habits">Habits</option>
+            <option value="upcoming_bills">Upcoming Bills</option>
+        </select>
+        <div class="widget-content"></div>
+    </div>
     
 
 </div>

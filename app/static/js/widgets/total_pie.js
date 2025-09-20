@@ -20,36 +20,44 @@ function getInvestmentsTotal() {
     return investments.reduce((sum, entry) => sum + (parseFloat(entry.stockAmount) || 0), 0);
 }
 
+
 /*function getExpensesTotal() {
     const expenses = JSON.parse(localStorage.getItem("expense")) || []; // 
     return expenses.reduce((sum, entry) => sum + (parseFloat(entry.expenseAmount) || 0), 0);
 }*/
 
-function initTotal_pie() {
-    const ctx = document.getElementById("totalpie").getContext("2d");
+/**
+ * Container-aware init function for Total Pie
+ */
+function initTotal_pie(container = document) {
+    const canvas = container.querySelector("#totalpie");
+    const breakdown = container.querySelector("#category-breakdown");
 
+    if (!canvas || !breakdown) {
+        console.warn("⚠️ Total Pie elements not found in container", container);
+        return;
+    }
+
+    const ctx = canvas.getContext("2d");
 
     const data = [
-        //getExpensesTotal(),  add for expense 
-        getIncomeTotal(),     
-        getSavingsTotal(),    
-        getInvestmentsTotal() 
+        getIncomeTotal(),
+        getSavingsTotal(),
+        getInvestmentsTotal()
     ];
 
-    const labels = [/*"Expense",*/"Income", "Savings", "Investments"];
+    const labels = ["Income", "Savings", "Investments"];
     const backgroundColors = [
-        getCSSVariable('--chart-color-1'),
-        getCSSVariable('--chart-color-2'),
-        getCSSVariable('--chart-color-3')
-//        getCSSVariable('--chart-color-4')
+        getCSSVariable("--chart-color-1"),
+        getCSSVariable("--chart-color-2"),
+        getCSSVariable("--chart-color-3")
     ];
 
     const centerTextPlugin = {
-        id: 'centerText',
+        id: "centerText",
         beforeDraw(chart) {
             const { width, height, ctx } = chart;
             ctx.restore();
-
             const fontSize = (height / 110).toFixed(2);
             ctx.font = `${fontSize}em sans-serif`;
             ctx.textBaseline = "middle";
@@ -82,15 +90,12 @@ function initTotal_pie() {
             maintainAspectRatio: true,
             cutout: "70%",
             plugins: {
-                legend: {
-                    display: false
-                }
+                legend: { display: false }
             }
         },
         plugins: [centerTextPlugin]
     });
 
-    const breakdown = document.getElementById("category-breakdown");
     breakdown.innerHTML = labels.map((label, i) => {
         return `
             <div>
@@ -98,8 +103,8 @@ function initTotal_pie() {
                 ${label}: £${data[i].toFixed(2)}
             </div>
         `;
-    }).join('');
+    }).join("");
 }
 
-// Re-render when localStorage changes
-window.addEventListener("storage", initTotal_pie);
+// 🔄 Re-render when localStorage changes
+window.addEventListener("storage", () => initTotal_pie(document));

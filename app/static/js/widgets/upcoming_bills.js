@@ -1,10 +1,10 @@
-function initUpcoming_bills() {
+function initUpcoming_bills(container = document) {
     console.log("initUpcoming_bills called ✅");
 
     const bills = JSON.parse(localStorage.getItem("bills")) || [];
 
-    const tbody = document.getElementById("bills-table-body");
-    const totalSpan = document.getElementById("total-bills");
+    const tbody = container.querySelector("#bills-table-body");
+    const totalSpan = container.querySelector("#total-bills");
 
     if (!tbody || !totalSpan) return;
 

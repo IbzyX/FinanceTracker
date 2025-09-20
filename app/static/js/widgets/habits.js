@@ -1,40 +1,36 @@
 let radarChart = null;
+
 function getCSSVariable(name) {
     return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 }
 
 function getRadarData() {
     const expenses = JSON.parse(localStorage.getItem("expense")) || [];
-
     const labels = expenses.map(exp => exp.name);
     const data = expenses.map(exp => parseFloat(exp.expenseAmount) || 0);
-
-
     return { labels, data };
 }
 
-function renderRadarExpenseTable() {
-    const expenseTable = document.getElementById("all-habits-table-body"); 
+function renderRadarExpenseTable(container = document) {
+    const expenseTable = container.querySelector("#all-habits-table-body"); 
     if (!expenseTable) return;
 
     const expenses = JSON.parse(localStorage.getItem("expense")) || [];
     expenseTable.innerHTML = "";
 
-    expenses.forEach((exp, index) => {
+    expenses.forEach(exp => {
         const row = document.createElement("tr");
         row.innerHTML = `
             <td>${exp.name}</td>
             <td>${exp.occurrence}</td>
-            <td>£${exp.expenseAmount.toFixed(2)}</td>
+            <td>£${parseFloat(exp.expenseAmount).toFixed(2)}</td>
         `;
         expenseTable.appendChild(row);
     });
-
-   
 }
 
-function initHabits() {
-    const canvas = document.getElementById("radarChart");
+function initHabits(container = document) {
+    const canvas = container.querySelector("#radarChart");
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
@@ -43,10 +39,11 @@ function initHabits() {
     if (radarChart) {
         radarChart.destroy();
     }
+
     radarChart = new Chart(ctx, {
         type: "radar",
         data: {
-        labels: labels,  
+            labels: labels,
             datasets: [{
                 label: "Expenses (£)",
                 data: data,
@@ -59,48 +56,43 @@ function initHabits() {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                legend: {
-                    display: false
-                }
+                legend: { display: false }
             },
             scales: {
                 r: {
                     grid: {
-                        display: true,        // keep grid enabled
-                        color: (ctx) => {
-                        // Only draw the last (outer) grid line
-                        return ctx.index === ctx.chart.scales.r.ticks.length - 1 
-                            ? "#ffffff34"       // outer border color
-                            : "transparent";        // hide inner grids
-                        },
-                        lineWidth: (ctx) => {
-                        return ctx.index === ctx.chart.scales.r.ticks.length - 1 
-                            ? 2               // thicker outer line
-                            : 0;              // hide inner
-                        }
+                        display: true,
+                        color: (ctx) =>
+                            ctx.index === ctx.chart.scales.r.ticks.length - 1 
+                                ? "#ffffff34"
+                                : "transparent",
+                        lineWidth: (ctx) =>
+                            ctx.index === ctx.chart.scales.r.ticks.length - 1 
+                                ? 2
+                                : 0
                     },
-                        angleLines: {
-                        display: false
-                    },
-                    ticks: {
-                        display: false
-                    },
+                    angleLines: { display: false },
+                    ticks: { display: false },
                     pointLabels: {
                         display: true,
                         color: "var(--text-color)",
-                        font: {
-                            size: 12
-                        }
+                        font: { size: 12 }
                     }
                 }
             }
         }
-
     });
-    renderRadarExpenseTable();
-}
-document.addEventListener("DOMContentLoaded", initHabits);
 
+    // ✅ Pass container for scoped table rendering
+    renderRadarExpenseTable(container);
+}
+
+// Initialize when DOM is ready
+document.addEventListener("DOMContentLoaded", () => {
+    initHabits(document);
+});
+
+// Re-render when localStorage changes
 window.addEventListener("storage", () => {
-    initHabits();
+    initHabits(document);
 });

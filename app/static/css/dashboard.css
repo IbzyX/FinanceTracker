@@ -1,53 +1,66 @@
-* {
-    box-sizing: border-box;
-}
-
-
 .dashboard {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(12, 1fr);
+    grid-auto-rows: 52px; /* 🔥 consistent base row height */
     gap: var(--widget-gap);
     height: calc(90vh - 100px);
     margin: 0 auto;
 }
-.column {
+
+/* Slot sizing */
+.widget-slot.small {
+    grid-row: span 2; /* = 120px */
+}
+.widget-slot.medium {
+    grid-row: span 4; /* = 240px */
+}
+.widget-slot.large {
+    grid-row: span 6; /* = 360px */
+}
+
+/* Each slot contains a widget */
+.widget-slot {
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: var(--widget-gap);
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
 }
+
+/* Widget container */
 .widget {
     background: var(--widget-color);
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    font-weight: bold;
-    font-size: 1rem;
-    text-align: center;
     width: 100%;
-    height: 100%;
+    height: 100%;   /* 🔥 force to match slot */
     overflow: hidden;
     padding: 1rem;
     box-sizing: border-box;
 }
-.widget-slot {
-    width: 100%;
-    box-sizing: border-box;
-}
-.widget-slot.small {
-    grid-row: span 2;
-}
-.widget-slot.medium {
-    grid-row: span 4;
-}
-.widget-slot.large {
-    grid-row: span 6;
+
+/* Widget content should stretch */
+.widget-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* keep content centered if small */
+    align-items: center;
+    overflow: hidden;
 }
 
-.widget-header {
-    padding: 5px;
-}
-.widget-body {
-    flex: 1;
-    width: 100%;
+/* Dropdown stays pinned in top-right */
+.widget-dropdown {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 4px 6px;
+    font-size: 14px;
+    background-color: var(--widget-color);
+    color: var(--text-color);
+    border: 1px solid var(--widget-color);
+    border-radius: 4px;
+    z-index: 5;
 }

@@ -1,6 +1,20 @@
-function initInvestments() {
-    const canvas = document.getElementById("investments-chart");
-    if (!canvas) return;
+window.investmentChart = null;
+
+const exchangeRates = {
+    GBP: 1,
+    USD: 0.78,
+    EURO: 0.85
+};
+
+function initInvestments(container = document) {
+    const canvas = container.querySelector("#investments-chart");
+    const yearSelect = container.querySelector("#years");
+    const totalDisplay = container.querySelector("#total-investments");
+
+    if (!canvas || !yearSelect || !totalDisplay) {
+        console.warn("⚠️ Investment elements not found in container", container);
+        return;
+    }
 
     const ctx = canvas.getContext("2d");
     const saved = JSON.parse(localStorage.getItem("investments"));
@@ -10,29 +24,19 @@ function initInvestments() {
         return;
     }
 
-    const yearSelect = document.getElementById("years");
     const initialYears = parseInt(yearSelect.value, 10);
 
-    // Initial render with selected years
-    renderInvestmentProjection(saved, ctx, initialYears);
+    // Initial render
+    renderInvestmentProjection(saved, ctx, totalDisplay, initialYears);
 
-    // Re-render when dropdown changes
+    // Re-render on dropdown change
     yearSelect.addEventListener("change", () => {
         const years = parseInt(yearSelect.value, 10);
-        renderInvestmentProjection(saved, ctx, years);
+        renderInvestmentProjection(saved, ctx, totalDisplay, years);
     });
 }
 
-
-window.investmentChart = null;
-
-const exchangeRates = {
-    GBP: 1,
-    USD: 0.78,
-    EURO: 0.85
-};
-
-function renderInvestmentProjection(investments, ctx, years = 10) {
+function renderInvestmentProjection(investments, ctx, totalDisplay, years = 10) {
     const labels = Array.from({ length: years + 1 }, (_, i) => `Year ${i}`);
     const datasets = [];
 
@@ -49,7 +53,7 @@ function renderInvestmentProjection(investments, ctx, years = 10) {
         });
     });
 
-    // Total combined line with growth
+    // Total combined line
     const combined = combineProjections(investments, years);
     datasets.push({
         label: "Total Projected Value (£)",
@@ -67,26 +71,21 @@ function renderInvestmentProjection(investments, ctx, years = 10) {
 
     window.investmentChart = new Chart(ctx, {
         type: "line",
-        data: {
-            labels,
-            datasets
-        },
+        data: { labels, datasets },
         options: {
             responsive: true,
             plugins: {
-                legend: {
-                    position: "top"
-                },
+                legend: { position: "top" },
                 tooltip: {
                     callbacks: {
-                        label: function(context) {
+                        label: function (context) {
                             const datasetLabel = context.dataset.label || "";
                             const value = context.parsed.y;
+                            const yearIndex = context.dataIndex;
 
                             if (!datasetLabel.includes("Total Projected Value")) {
-                                const yearIndex = context.dataIndex;
-                                const investment = investments[context.datasetIndex];  
-                                const baseDeposits = combineBaseDeposits([investment], years);  
+                                const investment = investments[context.datasetIndex];
+                                const baseDeposits = combineBaseDeposits([investment], years);
                                 const baseForYear = baseDeposits[yearIndex];
 
                                 return [
@@ -96,7 +95,6 @@ function renderInvestmentProjection(investments, ctx, years = 10) {
                             }
 
                             if (datasetLabel.includes("Total Projected Value")) {
-                                const yearIndex = context.dataIndex;
                                 const baseDeposits = combineBaseDeposits(investments, years);
                                 const baseForYear = baseDeposits[yearIndex];
 
@@ -106,12 +104,10 @@ function renderInvestmentProjection(investments, ctx, years = 10) {
                                 ];
                             }
 
-                            // Default fallback (just the label)
                             return `${datasetLabel}: £${value.toLocaleString()}`;
                         }
                     }
                 }
-
             },
             scales: {
                 y: {
@@ -127,19 +123,19 @@ function renderInvestmentProjection(investments, ctx, years = 10) {
     // Update bottom display
     const finalTotal = combined[combined.length - 1];
     const finalBase = combineBaseDeposits(investments, years)[years];
-    const totalDisplay = document.getElementById("total-investments");
 
     if (totalDisplay) {
         const difference = finalTotal - finalBase;
-        const diffFormatted = difference >= 0 
+        const diffFormatted = difference >= 0
             ? `£${difference.toLocaleString()}`
             : `£${Math.abs(difference).toLocaleString()}`;
 
-        totalDisplay.textContent = `Total Value After ${years} Years: £${finalTotal.toLocaleString()} (Difference: ${diffFormatted})`;
+        totalDisplay.textContent =
+            `Total Value After ${years} Years: £${finalTotal.toLocaleString()} (Difference: ${diffFormatted})`;
     }
 }
 
-
+// --- helpers (same as before) ---
 function getProjection(investment, years) {
     const result = [];
     const rate = (investment.annualReturn || 0) / 100;
@@ -157,45 +153,22 @@ function getProjection(investment, years) {
         }
         result.push(Math.round(value));
     }
-
     return result;
 }
 
-// Combine all investments projections with growth
 function combineProjections(investments, years) {
     const total = Array(years + 1).fill(0);
-
     investments.forEach(inv => {
         const projection = getProjection(inv, years);
         for (let i = 0; i <= years; i++) {
             total[i] += projection[i];
         }
     });
-
     return total.map(v => Math.round(v));
 }
 
-// Combine net deposits (only contributions, no initial)
-function combineNetDeposits(investments, years) {
-    const deposits = Array(years + 1).fill(0);
-
-    investments.forEach(inv => {
-        const contribAnnual = convertToAnnual(inv.contributionAmount || 0, inv.contributionInterval);
-        const fx = exchangeRates[inv.currency] || 1;
-        const contribGBP = contribAnnual * fx;
-
-        for (let year = 0; year <= years; year++) {
-            deposits[year] += contribGBP * year; // cumulative contributions only
-        }
-    });
-
-    return deposits.map(v => Math.round(v));
-}
-
-// Combine base deposits = initial amount + cumulative contributions (no growth)
 function combineBaseDeposits(investments, years) {
     const deposits = Array(years + 1).fill(0);
-
     investments.forEach(inv => {
         const initial = (inv.stockAmount || 0) * (exchangeRates[inv.currency] || 1);
         const contribAnnual = convertToAnnual(inv.contributionAmount || 0, inv.contributionInterval);
@@ -206,7 +179,6 @@ function combineBaseDeposits(investments, years) {
             deposits[year] += initial + contribGBP * year;
         }
     });
-
     return deposits.map(v => Math.round(v));
 }
 

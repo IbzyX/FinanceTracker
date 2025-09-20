@@ -1,11 +1,11 @@
-document.addEventListener("DOMContentLoaded", initSavings_projection);
+function initSavings_projection(container = document) {
+    console.log("📈 initSavings_projection called");
 
-function initSavings_projection() {
     const savingsData = JSON.parse(localStorage.getItem("savings"));
-    const savingsProjectionWidget = document.getElementById("savings_projection-widget");
+    const widget = container.querySelector("#savings_projection-widget");
 
-    if (!savingsData) {
-        console.error("No savings data found.");
+    if (!savingsData || !widget) {
+        console.warn("❌ Missing savings data or widget container.");
         return;
     }
 
@@ -18,24 +18,23 @@ function initSavings_projection() {
             return;
         }
 
-        // Calculate the projection data
         const projectionData = calculateSavingsProjection(amount, interval, percentage, goalDate, instalment);
 
-        if (projectionData.length === 0) {
-            console.error("No projection data found.");
+        if (!projectionData.length) {
+            console.warn("⚠️ No projection data to display.");
             return;
         }
 
         // ✅ AER Display
-        const aerDisplayEl = document.getElementById("aer-display");
+        const aerDisplayEl = container.querySelector("#aer-display");
         if (aerDisplayEl) {
             aerDisplayEl.textContent = `AER: ${percentage}%`;
         }
 
-        // ✅ Goal Feasibility Check with Tooltip
+        // ✅ Goal Feasibility Indicator
         const finalProjection = projectionData[projectionData.length - 1];
         const finalCompound = parseFloat(finalProjection.compound);
-        const goalFeasibilityEl = document.getElementById("goal-feasibility");
+        const goalFeasibilityEl = container.querySelector("#goal-feasibility");
 
         if (goalFeasibilityEl) {
             if (finalCompound >= savingsData.goalAmount) {
@@ -46,21 +45,18 @@ function initSavings_projection() {
                 goalFeasibilityEl.textContent = "⚠️";
                 goalFeasibilityEl.style.color = "crimson";
                 goalFeasibilityEl.setAttribute("aria-label", "Goal NOT achievable.");
-
-
             }
         }
 
-
-        // Now render the chart
-        renderSavingsProjection(projectionData);
+        renderSavingsProjection(widget, projectionData);
     }
 
-    // Function to calculate the savings projection
+    // Calculate projection data
     function calculateSavingsProjection(amount, interval, percentage, goalDate, instalment) {
-        let projections = [];
+        const projections = [];
         const startDate = new Date();
         const endDate = new Date(goalDate);
+
         let currentAmount = amount;
         let currentCompoundAmount = amount;
 
@@ -73,17 +69,18 @@ function initSavings_projection() {
             yearly: 365
         };
 
-        const dailyRate = Math.pow(1 + percentage / 100, 1 / 365) - 1;
-        const daysToGoal = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24));
         const intervalDays = timeInterval[interval];
-
-        if (isNaN(intervalDays)) {
-            console.error(`Invalid interval: ${interval}`);
+        if (!intervalDays) {
+            console.error(`❌ Invalid interval: ${interval}`);
             return [];
         }
 
+        const dailyRate = Math.pow(1 + percentage / 100, 1 / 365) - 1;
+        const daysToGoal = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24));
+
         for (let day = 0; day <= daysToGoal; day += intervalDays) {
-            const date = new Date(startDate.getTime() + day * (1000 * 60 * 60 * 24));
+            const date = new Date(startDate.getTime() + day * 86400000); // 86400000 = ms in a day
+
             currentAmount += instalment;
             currentCompoundAmount += instalment;
 
@@ -100,47 +97,50 @@ function initSavings_projection() {
         return projections;
     }
 
-    // Function to render the chart
-    function renderSavingsProjection(projectionData) {
+    // Render Chart
+    function renderSavingsProjection(widget, projectionData) {
+        const canvas = widget.querySelector("canvas");
+        if (!canvas) {
+            console.warn("⚠️ Savings chart canvas not found.");
+            return;
+        }
+
+        const ctx = canvas.getContext("2d");
+
+        // Destroy existing chart if exists
+        const existingChart = Chart.getChart(canvas);
+        if (existingChart) {
+            existingChart.destroy();
+        }
+
         const labels = projectionData.map(item => item.date);
         const amountData = projectionData.map(item => item.amount);
         const compoundData = projectionData.map(item => item.compound);
 
-        if (labels.length === 0 || amountData.length === 0 || compoundData.length === 0) {
-            console.error("Data for chart is empty.");
-            return;
-        }
-
-        const ctx = savingsProjectionWidget.querySelector("canvas").getContext("2d");
-
-        if (window.savingsChart) {
-            window.savingsChart.destroy();
-        }
-
-        window.savingsChart = new Chart(ctx, {
+        new Chart(ctx, {
             type: 'line',
             data: {
-                labels: labels,
+                labels,
                 datasets: [
                     {
                         label: 'Total',
                         data: amountData,
-                        fill: false,
                         borderColor: '#6ce5e8',
+                        fill: false,
                         tension: 0.1
                     },
                     {
                         label: 'Compound',
                         data: compoundData,
-                        fill: false,
                         borderColor: '#ff3bb4',
+                        fill: false,
                         tension: 0.1
                     }
                 ]
             },
             options: {
                 layout: {
-                    padding: { bottom: 10 },
+                    padding: { bottom: 10 }
                 },
                 scales: {
                     x: {
@@ -149,17 +149,21 @@ function initSavings_projection() {
                             minRotation: 45,
                             autoSkip: true,
                             maxTicksLimit: 8
-                        },
-                        title: {
-                            display: true,
-                            text: ''
                         }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top'
                     }
                 }
             }
         });
     }
 
-    // 🔁 Initial graph render
+    // 🔁 Initial Render
     updateSavingsProjection(savingsData);
 }
+
+// 🔄 Re-render when localStorage updates (optional)
+window.addEventListener("storage", () => initSavings_projection(document));
