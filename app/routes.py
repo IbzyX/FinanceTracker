@@ -10,10 +10,12 @@ def home_page():
     return render_template('home.html')
 
 @main.route('/dashboard')
+@login_required
 def dashboard_page():
     return render_template('dashboard.html', active_page='dashboard')
 
 @main.route('/entry')
+@login_required
 def entry_page():
     return render_template('entry.html', active_page='entry')
 

@@ -58,7 +58,7 @@
         </nav>
         {% with messages = get_flashed_messages(with_categories=true) %} 
             {% if messages %}
-                <div class="flash-messagess">
+                <div class="flash-messages">
                     {% for category, message in messages %}
                         <div class="alert {{ category }}">{{ message }}</div>
                     {% endfor %}

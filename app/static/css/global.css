@@ -195,3 +195,18 @@ body {
   animation: fadeOut 1s forwards;
 }
 
+.flash-messages {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 90%;
+  pointer-events: none;
+}
+.flash-messages .alert {
+  pointer-events: none;
+}
